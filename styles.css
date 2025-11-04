@@ -78,7 +78,7 @@ section { padding: clamp(40px, 6vw, 96px) 0; }
 }
 .btn:hover { filter: brightness(1.05); }
 .btn.ghost { background: transparent; color: var(--text); border-color: rgba(255,255,255,.14); }
-.btn.small { padding: 8px 12px; font-weight: 600; color: black}
+.btn.small { padding: 8px 12px; font-weight: 600; color: black; }
 
 /* Grid */
 .grid { display: grid; gap: 22px; }
@@ -159,7 +159,16 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
     grid-template-columns: 1fr;
   }
 }
-.badge { display: inline-block; padding: 6px 10px; border-radius: 99px; font-size: 12px; background: var(--brand); color: black; border: 1px solid rgba(166,255,207,.2) }
+
+.badge { 
+  display: inline-block; 
+  padding: 6px 10px; 
+  border-radius: 99px; 
+  font-size: 12px; 
+  background: var(--brand); 
+  color: black; 
+  border: 1px solid rgba(166,255,207,.2);
+}
 
 /* Instagram Link */
 .instagram-link {
@@ -186,6 +195,7 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
 .instagram-link svg {
   flex-shrink: 0;
 }
+
 /* Carrossel de Notícias */
 .news-carousel {
   position: relative;
@@ -300,8 +310,7 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
 /* Video Container */
 .video-container {
   position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 aspect ratio */
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   height: 0;
   overflow: hidden;
   border-radius: 12px;
@@ -317,6 +326,7 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
   height: 100%;
   border-radius: 12px;
 }
+
 /* Footer */
 footer { border-top: 1px solid rgba(255,255,255,.08); padding: 28px 0 50px; color: var(--muted); }
 footer a { color: var(--text); opacity: .9; }
