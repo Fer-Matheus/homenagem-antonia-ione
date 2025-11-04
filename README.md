@@ -17,9 +17,35 @@ O fluxo de pagamento é feito **fora do site**, por links do seu provedor (ex.: 
 4. (Opcional) **Transparência automática**: publique uma planilha como CSV e coloque a URL em `CONFIG.transparencyCSV`.
 5. (Opcional) Use `localStorage.setItem('raisedBRL', 12345)` no console do navegador para simular progresso.
 6. **Publique**:
-   - Vercel: arraste a pasta para um novo projeto (framework “Other”).  
-   - Cloudflare Pages / Netlify / GitHub Pages: aponte a raiz para a pasta do projeto.
+   - **GitHub Pages** (automático): faça push para o repositório e ative o GitHub Pages nas configurações.
+   - Vercel: arraste a pasta para um novo projeto (framework "Other").  
+   - Cloudflare Pages / Netlify: aponte a raiz para a pasta do projeto.
 7. **Domínio**: configure DNS (ex.: `monumentoantonia.org.br`).
+
+## GitHub Pages - Configuração
+
+Este projeto já está configurado para deploy automático no GitHub Pages:
+
+1. **Faça push do código** para o GitHub (branch `main` ou `master`)
+2. **Ative o GitHub Pages**:
+   - Vá em **Settings** → **Pages**
+   - Em **Source**, selecione **GitHub Actions**
+3. O workflow `.github/workflows/deploy.yml` fará o deploy automaticamente a cada push
+4. Seu site estará disponível em: `https://<seu-usuario>.github.io/<nome-do-repo>/`
+
+### Configurar domínio customizado (opcional)
+
+1. Nas configurações do GitHub Pages, adicione seu domínio customizado
+2. Configure os registros DNS do seu provedor:
+   - Para domínio raiz (`monumentoantonia.org.br`):
+     - Tipo `A` apontando para os IPs do GitHub:
+       - `185.199.108.153`
+       - `185.199.109.153`
+       - `185.199.110.153`
+       - `185.199.111.153`
+   - Para subdomínio (`www.monumentoantonia.org.br`):
+     - Tipo `CNAME` apontando para `<seu-usuario>.github.io`
+3. Aguarde a propagação do DNS (pode levar até 48h)
 
 ## Boas práticas legais e de confiança
 
