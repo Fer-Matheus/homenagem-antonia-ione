@@ -161,6 +161,31 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
 }
 .badge { display: inline-block; padding: 6px 10px; border-radius: 99px; font-size: 12px; background: var(--brand); color: black; border: 1px solid rgba(166,255,207,.2) }
 
+/* Instagram Link */
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  margin-top: 16px;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(188, 24, 136, 0.3);
+}
+
+.instagram-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(188, 24, 136, 0.4);
+}
+
+.instagram-link svg {
+  flex-shrink: 0;
+}
 /* Footer */
 footer { border-top: 1px solid rgba(255,255,255,.08); padding: 28px 0 50px; color: var(--muted); }
 footer a { color: var(--text); opacity: .9; }

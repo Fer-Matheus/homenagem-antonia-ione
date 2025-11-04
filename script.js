@@ -1,7 +1,7 @@
 
 // Configurações básicas do projeto
 const CONFIG = {
-  goalBRL: 500000, // meta total em R$
+  goalBRL: 5000, // meta total em R$
   raisedBRL: 0,    // valor inicial visível (pode vir de backend)
   
   donorsSheetURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTmj8Z_LPo_zVhHg_r6-zAk6zR-ZdZczCg5BS28JyyTlkblIEiW08eneedoicK7sR_8SfVcCz91NNu/pub?gid=2100924104&single=true&output=csv", // Cole aqui a URL da planilha publicada como CSV
