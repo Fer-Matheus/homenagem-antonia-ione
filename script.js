@@ -190,3 +190,46 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProgress();
   loadDonors();
 });
+
+// Carrossel de Notícias
+let currentNewsIndex = 0;
+
+function showNews(index) {
+  const items = document.querySelectorAll('.news-item');
+  const dots = document.querySelectorAll('.dot');
+
+  if (index >= items.length) currentNewsIndex = 0;
+  if (index < 0) currentNewsIndex = items.length - 1;
+
+  items.forEach((item, i) => {
+    item.classList.remove('active');
+    if (i === currentNewsIndex) {
+      item.classList.add('active');
+    }
+  });
+
+  dots.forEach((dot, i) => {
+    dot.classList.remove('active');
+    if (i === currentNewsIndex) {
+      dot.classList.add('active');
+    }
+  });
+}
+
+function changeNews(direction) {
+  currentNewsIndex += direction;
+  showNews(currentNewsIndex);
+}
+
+function currentNews(index) {
+  currentNewsIndex = index;
+  showNews(currentNewsIndex);
+}
+
+window.changeNews = changeNews;
+window.currentNews = currentNews;
+
+// Auto-avançar o carrossel a cada 8 segundos
+setInterval(() => {
+  changeNews(1);
+}, 8000);
