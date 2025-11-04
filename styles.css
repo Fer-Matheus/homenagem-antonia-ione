@@ -97,6 +97,68 @@ ul.clean li { padding-left: 0; margin: 10px 0; }
 .table th, .table td { text-align: left; padding: 10px 12px; }
 .table thead th { border-bottom: 1px solid rgba(255,255,255,.18); color: var(--muted); font-weight: 600; }
 .table tbody tr { border-bottom: 1px solid rgba(255,255,255,.08); }
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, .03);
+}
+
+#donors-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+#donors-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+#donors-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, .05);
+  border-radius: 10px;
+}
+
+#donors-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .15);
+  border-radius: 10px;
+}
+
+#donors-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .25);
+}
+
+/* Lista de nomes de doadores */
+.donors-names {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.donors-names li {
+  background: rgba(255, 255, 255, .04);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.donors-names li:hover {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .15);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 720px) {
+  .donors-names {
+    grid-template-columns: 1fr;
+  }
+}
 .badge { display: inline-block; padding: 6px 10px; border-radius: 99px; font-size: 12px; background: var(--brand); color: black; border: 1px solid rgba(166,255,207,.2) }
 
 /* Footer */

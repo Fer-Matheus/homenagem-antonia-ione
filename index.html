@@ -21,7 +21,6 @@
       </a>
       <nav class="nav" aria-label="Navegação principal">
         <a href="#sobre">Sobre</a>
-        <a href="#transparencia">Transparência</a>
         <a href="#monumento">O Monumento</a>
         <a href="#faq">FAQ</a>
         <a href="#contato">Contato</a>
@@ -48,7 +47,7 @@
         </div>
         <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
           <a class="btn" href="javascript:void(0)" onclick="openDonate()">Quero Doar</a>
-          <a class="btn ghost" href="#transparencia">Ver transparência</a>
+          <a class="btn ghost" href="#monumento">Ver apoiadores</a>
         </div>
         <p class="small-note">Transparência total, recibo de doação e prestação de contas pública.</p>
       </div>
@@ -102,35 +101,18 @@
           <p class="small-note">A versão final do design será apresentada publicamente antes da contratação.</p>
         </div>
         <div class="card">
-          <h2>Orçamento e cronograma</h2>
-          <table class="table">
-            <thead><tr><th>Item</th><th>Valor estimado</th></tr></thead>
-            <tbody>
-              <tr><td>Criação artística e maquete</td><td>R$ 50.000</td></tr>
-              <tr><td>Escultura e materiais</td><td>R$ 280.000</td></tr>
-              <tr><td>Base, fundação e instalação</td><td>R$ 120.000</td></tr>
-              <tr><td>Iluminação e acessibilidade</td><td>R$ 35.000</td></tr>
-              <tr><td>Placa memorial e acabamentos</td><td>R$ 15.000</td></tr>
-            </tbody>
-            <tfoot><tr><th>Total</th><th>R$ 500.000</th></tr></tfoot>
-          </table>
-          <p class="small-note">Cronograma preliminar: 6–8 meses após captação da meta.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="transparencia">
-      <div class="container">
-        <div class="card">
-          <h2>Transparência e prestação de contas</h2>
-          <p>Publicaremos mensalmente receitas e despesas, contratos e notas fiscais. Acompanhe abaixo ou em nossa planilha pública.</p>
-          <table id="tb-transp" class="table" aria-describedby="transp-desc">
-            <thead><tr><th>Data</th><th>Descrição</th><th>Valor (R$)</th><th>Tipo</th></tr></thead>
-            <tbody>
-              <!-- Linhas podem ser carregadas via CSV público (ver script.js CONFIG.transparencyCSV) -->
-            </tbody>
-          </table>
-          <p id="transp-desc" class="small-note">Para auditoria independente, entre em contato e solicite os relatórios completos.</p>
+          <h2>Nossos apoiadores</h2>
+          <p>Agradecemos a todos que contribuíram para este projeto. Cada doação nos aproxima do objetivo de honrar a memória de
+            Antônia Ione.</p>
+          <div id="donors-container">
+            <p class="small-note" style="text-align: center; padding: 20px;">Carregando lista de doadores...</p>
+          </div>
+          <div id="donors-list" style="display: none;">
+            <ul class="donors-names" id="donors-names-list">
+              <!-- Os nomes dos doadores serão carregados aqui via JavaScript -->
+            </ul>
+          </div>
+          <p class="small-note">A lista é atualizada automaticamente com base nas doações confirmadas.</p>
         </div>
       </div>
     </section>
@@ -139,20 +121,36 @@
       <div class="container grid cols-2">
         <div class="card">
           <h2>Perguntas frequentes</h2>
-          <h3>Como as doações são processadas?</h3>
-          <p>Usamos <strong>provedores de pagamento externos</strong> (ex.: Mercado Pago, PagSeguro, Stripe, Asaas). O pagamento acontece de forma segura na página do provedor; <strong>não armazenamos dados de cartão</strong> neste site.</p>
-          <h3>Recebo comprovante?</h3>
-          <p>Sim. O provedor emite recibo automaticamente. Você também pode optar por receber um e-mail do projeto (veja o formulário na janela de doação).</p>
+          <h3>Como faço para doar?</h3>
+          <p>Clique no botão <strong>"Doar agora"</strong> e você será direcionado para um formulário do Google com o <strong>QR
+              Code PIX</strong> e instruções detalhadas. É rápido, seguro e fácil!</p>
+          
+          <h3>Meu nome aparecerá na lista de apoiadores?</h3>
+          <p>Sim, se você desejar! No formulário de doação, você pode informar seu nome para ser incluído na <strong>lista pública
+              de apoiadores</strong>. Também é possível optar por fazer uma <strong>doação anônima</strong>.</p>
+          
+          <h3>Como é feito o pagamento?</h3>
+          <p>Aceitamos doações via <strong>PIX</strong>. No formulário, você encontrará o QR Code e as instruções completas. É
+            seguro e instantâneo!</p>
           <h3>E a LGPD?</h3>
-          <p>Coletamos apenas dados necessários para recibo/comunicação e seguimos a <strong>LGPD</strong>. Consulte a seção de privacidade no rodapé.</p>
+          <p>Publicamos apenas o <strong>nome dos doadores</strong> (se autorizado). Não coletamos nem divulgamos dados sensíveis
+            como CPF, e-mail ou telefone. Seguimos rigorosamente a <strong>LGPD</strong>.</p>
         </div>
         <div class="card">
-          <h2>Governança</h2>
+          <h2>Governança e Transparência</h2>
+          
+          <h3>Quem administra o projeto?</h3>
           <ul class="clean">
-            <li>• Comitê gestor: representantes do MBL CE e comunidade local;</li>
-            <li>• Compras com 3 cotações e contratos publicados;</li>
-            <li>• Prestação de contas mensal e relatório final após conclusão;</li>
-            <li>• Canal para denúncias e auditoria independente.</li>
+            <li>• Comitê gestor: representantes do MBL CE e comunidade local</li>
+            <li>• Decisões tomadas de forma transparente e participativa</li>
+            </ul>
+            
+            <h3>Como garantir a transparência?</h3>
+            <ul class="clean">
+              <li>• Lista pública de apoiadores atualizada automaticamente</li>
+              <li>• Prestação de contas mensal e relatório final após conclusão</li>
+              <li>• Compras com 3 cotações e contratos publicados</li>
+              <li>• Canal para denúncias e auditoria independente</li>
           </ul>
         </div>
       </div>
@@ -171,8 +169,17 @@
         </div>
         <div class="card">
           <h2>Participe</h2>
-          <p>Voluntarie-se para ações de mobilização em Saboeiro e região. Também precisamos de apoio técnico (engenharia, serralheria, iluminação, acessibilidade).</p>
-          <a class="btn" href="https://forms.gle/exemplo" target="_blank" rel="noopener">Quero ser voluntário</a>
+          <p>Precisamos de <strong>voluntários</strong> para ajudar na entrega e viabilização da homenagem a Antônia Ione. Sua
+            colaboração é fundamental!</p>
+          <p>Se você tem disponibilidade e deseja contribuir com:</p>
+          <ul class="clean">
+            <li>• Logística e organização</li>
+            <li>• Mobilização e divulgação</li>
+            <li>• Apoio técnico (engenharia, construção, etc.)</li>
+            <li>• Outras formas de apoio</li>
+          </ul>
+          <p>Preencha o formulário e entraremos em contato:</p>
+          <a class="btn" href="https://forms.gle/YJBNSpkGyfcqvpWu6" target="_blank" rel="noopener">Quero ser voluntário</a>
         </div>
       </div>
     </section>
@@ -231,6 +238,28 @@
           <label for="nome">Nome (opcional)</label>
           <input id="nome" type="text" placeholder="Seu nome">
         </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal de aviso para doação -->
+  <dialog id="dlgAvisoDoacao">
+    <div class="dialog-head">
+      <strong>Fazer uma doação</strong>
+      <button class="btn small ghost" onclick="closeAvisoDoacao()" aria-label="Fechar janela">Fechar</button>
+    </div>
+    <div class="dialog-body">
+      <p style="margin-top: 0;">Você será redirecionado para um formulário do Google onde poderá:</p>
+      <ul class="clean">
+        <li>✅ Ver o <strong>QR Code PIX</strong> para realizar sua doação</li>
+        <li>✅ Seguir as <strong>instruções de pagamento</strong></li>
+        <li>✅ Informar seu <strong>nome</strong> para ser incluído na lista de apoiadores</li>
+        <li>✅ Optar por fazer uma <strong>doação anônima</strong>, se preferir</li>
+      </ul>
+      <p class="small-note">Sua contribuição será fundamental para honrar a memória de Antônia Ione.</p>
+      <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+        <button class="btn" onclick="confirmarDoacao()">Ir para o formulário</button>
+        <button class="btn ghost" onclick="closeAvisoDoacao()">Cancelar</button>
       </div>
     </div>
   </dialog>
