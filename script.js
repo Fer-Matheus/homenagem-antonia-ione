@@ -4,18 +4,86 @@ const CONFIG = {
   goalBRL: 5000, // meta total em R$
   raisedBRL: 0,    // valor inicial visível (pode vir de backend)
   
-  donorsSheetURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTmj8Z_LPo_zVhHg_r6-zAk6zR-ZdZczCg5BS28JyyTlkblIEiW08eneedoicK7sR_8SfVcCz91NNu/pub?gid=2100924104&single=true&output=csv", // Cole aqui a URL da planilha publicada como CSV
-  donationFormURL: "" // Cole aqui a URL do Google Forms para doação
+  donorsSheetURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTmj8Z_LPo_zVhHg_r6-zAk6zR-ZdZczCg5BS28JyyTlkblIEiW08eneedoicK7sR_8SfVcCz91NNu/pub?output=csv", // Cole aqui a URL da planilha publicada como CSV
+  donationFormURL: "https://forms.gle/Ss5U3cJvcvR6Qj1dA", // Cole aqui a URL do Google Forms para doação
+
+  // ID da planilha do Google Sheets (extraído da URL da planilha)
+  // Exemplo de URL: https://docs.google.com/spreadsheets/d/1ABC123/edit
+  // O ID seria: 1ABC123
+  spreadsheetId: "1qNUsDI-w2bJdKGRwAsatmZD9w9B_Pqsf81Htj64rN9A",
+
+  // Nome da aba que contém o montante (valor total das doações)
+  amountSheetName: "Montante",
+
+  // Célula que contém o valor total (ex: "A1", "B2", etc)
+  amountCell: "A1"
 };
 
 // Formata número BRL
 const fmtBRL = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+// Carrega o montante total das doações da planilha
+async function loadTotalAmount() {
+  if (!CONFIG.spreadsheetId || !CONFIG.amountSheetName || !CONFIG.amountCell) {
+    console.log('Configuração da planilha de montante incompleta');
+    return CONFIG.raisedBRL;
+  }
+
+  try {
+    // Monta a URL da célula usando a API pública do Google Sheets
+    const url = `https://docs.google.com/spreadsheets/d/${CONFIG.spreadsheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(CONFIG.amountSheetName)}&range=${CONFIG.amountCell}`;
+
+    console.log('Carregando montante de:', url);
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const text = await res.text();
+
+    // A resposta vem como JSONP, precisamos extrair o JSON
+    // Formato: google.visualization.Query.setResponse({...});
+    const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+    if (!jsonMatch) {
+      throw new Error('Formato de resposta inválido');
+    }
+
+    const data = JSON.parse(jsonMatch[1]);
+    console.log('Dados recebidos:', data);
+
+    // Extrai o valor da primeira célula
+    if (data.table && data.table.rows && data.table.rows.length > 0) {
+      const cell = data.table.rows[0].c[0];
+      if (cell && cell.v !== null && cell.v !== undefined) {
+        const value = typeof cell.v === 'number' ? cell.v : parseFloat(String(cell.v).replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.'));
+
+        if (Number.isFinite(value) && value > 0) {
+          console.log('Montante encontrado:', value);
+          return value;
+        }
+      }
+    }
+
+    console.warn('Nenhum valor válido encontrado na célula', CONFIG.amountCell);
+    return CONFIG.raisedBRL;
+
+  } catch (e) {
+    console.error('Erro ao carregar montante:', e);
+    return CONFIG.raisedBRL;
+  }
+}
+
 // Atualiza indicadores
-function updateProgress() {
+async function updateProgress() {
+  // Tenta carregar o valor da planilha primeiro
+  let raised = await loadTotalAmount();
+
   // Permite sobrepor via localStorage (para testes de demo)
   const override = Number(localStorage.getItem('raisedBRL') || NaN);
-  const raised = Number.isFinite(override) ? override : CONFIG.raisedBRL;
+  if (Number.isFinite(override)) {
+    raised = override;
+  }
 
   const pct = Math.min(100, Math.round((raised / CONFIG.goalBRL) * 100));
   document.querySelectorAll('[data-raised]').forEach(el => el.textContent = fmtBRL(raised));
