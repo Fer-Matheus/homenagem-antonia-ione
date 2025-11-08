@@ -50,22 +50,40 @@ async function loadTotalAmount() {
     }
 
     const data = JSON.parse(jsonMatch[1]);
-    console.log('Dados recebidos:', data);
+    console.log('Dados recebidos completos:', data);
 
     // Extrai o valor da primeira célula
     if (data.table && data.table.rows && data.table.rows.length > 0) {
       const cell = data.table.rows[0].c[0];
-      if (cell && cell.v !== null && cell.v !== undefined) {
-        const value = typeof cell.v === 'number' ? cell.v : parseFloat(String(cell.v).replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.'));
+      console.log('Célula encontrada:', cell);
 
-        if (Number.isFinite(value) && value > 0) {
-          console.log('Montante encontrado:', value);
-          return value;
+      if (cell && cell.v !== null && cell.v !== undefined) {
+        let value = cell.v;
+        console.log('Valor bruto da célula:', value, 'Tipo:', typeof value);
+
+        // Se for string, tenta fazer o parse
+        if (typeof value === 'string') {
+          // Remove R$, espaços, e converte vírgula em ponto
+          value = parseFloat(value.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.'));
         }
+
+        value = Number(value);
+        console.log('Valor após conversão:', value);
+
+        if (Number.isFinite(value) && value >= 0) {
+          console.log('✅ Montante encontrado:', value);
+          return value;
+        } else {
+          console.warn('❌ Valor não é um número válido:', value);
+        }
+      } else {
+        console.warn('❌ Célula vazia ou nula');
       }
+    } else {
+      console.warn('❌ Estrutura de dados inválida');
     }
 
-    console.warn('Nenhum valor válido encontrado na célula', CONFIG.amountCell);
+    console.warn('⚠️ Retornando valor padrão:', CONFIG.raisedBRL);
     return CONFIG.raisedBRL;
 
   } catch (e) {
@@ -76,21 +94,44 @@ async function loadTotalAmount() {
 
 // Atualiza indicadores
 async function updateProgress() {
+  console.log('🔄 Iniciando atualização de progresso...');
+
   // Tenta carregar o valor da planilha primeiro
   let raised = await loadTotalAmount();
+  console.log('💰 Valor carregado:', raised);
 
   // Permite sobrepor via localStorage (para testes de demo)
   const override = Number(localStorage.getItem('raisedBRL') || NaN);
   if (Number.isFinite(override)) {
+    console.log('⚠️ Usando override do localStorage:', override);
     raised = override;
   }
 
   const pct = Math.min(100, Math.round((raised / CONFIG.goalBRL) * 100));
-  document.querySelectorAll('[data-raised]').forEach(el => el.textContent = fmtBRL(raised));
-  document.querySelectorAll('[data-goal]').forEach(el => el.textContent = fmtBRL(CONFIG.goalBRL));
-  document.querySelectorAll('[data-pct]').forEach(el => el.textContent = pct + '%');
+  console.log('📊 Cálculo:', `${raised} / ${CONFIG.goalBRL} = ${pct}%`);
+
+  document.querySelectorAll('[data-raised]').forEach(el => {
+    el.textContent = fmtBRL(raised);
+    console.log('✅ Atualizado [data-raised]:', fmtBRL(raised));
+  });
+
+  document.querySelectorAll('[data-goal]').forEach(el => {
+    el.textContent = fmtBRL(CONFIG.goalBRL);
+    console.log('✅ Atualizado [data-goal]:', fmtBRL(CONFIG.goalBRL));
+  });
+
+  document.querySelectorAll('[data-pct]').forEach(el => {
+    el.textContent = pct + '%';
+    console.log('✅ Atualizado [data-pct]:', pct + '%');
+  });
+
   const bar = document.querySelector('.progress .bar');
-  if (bar) bar.style.width = pct + '%';
+  if (bar) {
+    bar.style.width = pct + '%';
+    console.log('✅ Atualizado barra de progresso:', pct + '%');
+  }
+
+  console.log('✅ Atualização completa!');
 }
 
 // Abre e fecha modal de aviso para doação
