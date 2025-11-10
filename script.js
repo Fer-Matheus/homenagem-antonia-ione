@@ -7,6 +7,9 @@ const CONFIG = {
   donorsSheetURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTmj8Z_LPo_zVhHg_r6-zAk6zR-ZdZczCg5BS28JyyTlkblIEiW08eneedoicK7sR_8SfVcCz91NNu/pub?output=csv", // Cole aqui a URL da planilha publicada como CSV
   donationFormURL: "https://forms.gle/Ss5U3cJvcvR6Qj1dA", // Cole aqui a URL do Google Forms para doação
 
+  // Chave PIX para doações
+  pixKey: "00020126360014BR.GOV.BCB.PIX0114+55859996900795204000053039865802BR5925MATHEUS DE ARRUDA FERREI6009SAO PAULO62070503***63041D3A", // Substitua pela chave PIX real extraída do QR Code
+
   // ID da planilha do Google Sheets (extraído da URL da planilha)
   // Exemplo de URL: https://docs.google.com/spreadsheets/d/1ABC123/edit
   // O ID seria: 1ABC123
@@ -136,23 +139,112 @@ async function updateProgress() {
 
 // Abre e fecha modal de aviso para doação
 const dlgAviso = document.getElementById('dlgAvisoDoacao');
+let selectedTierType = null;
+
 function openDonate() {
-  if (dlgAviso) dlgAviso.showModal();
+  if (dlgAviso) {
+    // Reset selection
+    selectedTierType = null;
+    document.querySelectorAll('.tier').forEach(tier => tier.classList.remove('selected'));
+    dlgAviso.showModal();
+  }
 }
+
 function closeAvisoDoacao() {
   if (dlgAviso) dlgAviso.close();
 }
+
+function selectTier(tierType) {
+  selectedTierType = tierType;
+
+  // Remove seleção anterior
+  document.querySelectorAll('.tier').forEach(tier => {
+    tier.classList.remove('selected');
+  });
+
+  // Adiciona seleção ao tier clicado
+  const selectedTier = document.querySelector(`.tier[data-tier="${tierType}"]`);
+  if (selectedTier) {
+    selectedTier.classList.add('selected');
+  }
+}
+
 function confirmarDoacao() {
   if (!CONFIG.donationFormURL) {
     alert('O link do formulário de doação ainda não foi configurado. Configure em script.js (CONFIG.donationFormURL)');
     return;
   }
-  window.open(CONFIG.donationFormURL, '_blank', 'noopener');
-  closeAvisoDoacao();
+
+  // Abre o formulário de doação
+  // Você pode adicionar parâmetros à URL se o Google Forms aceitar pré-preenchimento
+  let url = CONFIG.donationFormURL;
+
+  // Opcional: adicionar informação da faixa selecionada como parâmetro
+  if (selectedTierType) {
+    const tierNames = {
+      'symbolic': 'Doação Simbólica (R$ 0-499)',
+      'reward1': 'Doação com Recompensa 1 (R$ 500-999)',
+      'reward2': 'Doação com Recompensa 2 (R$ 1.000+)'
+    };
+    // Se o Google Forms tiver um campo pré-preenchível, você pode adicionar aqui
+    // url += `&entry.XXXXX=${encodeURIComponent(tierNames[selectedTierType])}`;
+  }
+
+  window.open(url, '_blank', 'noopener');
 }
+
+// Copia a chave PIX para a área de transferência
+async function copyPixKey() {
+  if (!CONFIG.pixKey) {
+    alert('A chave PIX ainda não foi configurada. Configure em script.js (CONFIG.pixKey)');
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(CONFIG.pixKey);
+    alert('✅ Chave PIX copiada!\n\nCole no seu aplicativo bancário para fazer a doação.');
+  } catch (err) {
+    // Fallback para navegadores que não suportam clipboard API
+    const textarea = document.createElement('textarea');
+    textarea.value = CONFIG.pixKey;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      alert('✅ Chave PIX copiada!\n\nCole no seu aplicativo bancário para fazer a doação.');
+    } catch (err2) {
+      alert('❌ Não foi possível copiar automaticamente.\n\nChave PIX: ' + CONFIG.pixKey);
+    }
+    document.body.removeChild(textarea);
+  }
+}
+
+// Mostra instruções de como doar via PIX
+function openPixInstructions() {
+  const instructions = `
+📱 Como fazer sua doação via PIX:
+
+1️⃣ Abra o aplicativo do seu banco
+2️⃣ Acesse a área de PIX
+3️⃣ Escolha "Pagar com QR Code" ou "PIX Copia e Cola"
+4️⃣ Escaneie o QR Code ou cole a chave copiada
+5️⃣ Confirme o valor que deseja doar
+6️⃣ Após o pagamento, preencha o formulário de confirmação
+
+💡 Dica: Você pode escolher qualquer valor dentro das faixas apresentadas!
+  `.trim();
+  
+  alert(instructions);
+}
+
 window.openDonate = openDonate;
 window.closeAvisoDoacao = closeAvisoDoacao;
 window.confirmarDoacao = confirmarDoacao;
+window.selectTier = selectTier;
+window.copyPixKey = copyPixKey;
+window.openPixInstructions = openPixInstructions;
 
 // Modal antigo de doação (mantido para referência, pode ser removido depois)
 const dlg = document.getElementById('dlgDoacao');

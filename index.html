@@ -312,17 +312,81 @@
         aria-label="Fechar janela">Fechar</button>
     </div>
     <div class="dialog-body">
-      <p style="margin-top: 0;">Você será redirecionado para um formulário do Google onde poderá:</p>
-      <ul class="clean">
-        <li>✅ Ver o <strong>QR Code PIX</strong> para realizar sua doação</li>
-        <li>✅ Seguir as <strong>instruções de pagamento</strong></li>
-        <li>✅ Informar seu <strong>nome</strong> para ser incluído na lista de apoiadores</li>
-        <li>✅ Optar por fazer uma <strong>doação anônima</strong>, se preferir</li>
-      </ul>
-      <p class="small-note">Sua contribuição será fundamental para honrar a memória de Antônia Ione.</p>
+      <h3 style="margin-top: 0; margin-bottom: 20px;">Escolha o valor da sua doação</h3>
+      
+      <!-- Faixas de doação -->
+      <div class="donation-tiers">
+        <div class="tier" data-tier="symbolic" onclick="selectTier('symbolic')">
+          <div class="tier-header">
+            <span class="tier-icon">💰</span>
+            <span class="tier-title">Doação Simbólica</span>
+          </div>
+          <div class="tier-value">R$ 0 - R$ 499</div>
+          <div class="tier-description">
+            Doação de coração, sem nenhuma contrapartida. Você confia no movimento e na iniciativa.
+          </div>
+        </div>
+      
+        <div class="tier" data-tier="reward1" onclick="selectTier('reward1')">
+          <div class="tier-header">
+            <span class="tier-icon">🎁</span>
+            <span class="tier-title">Doação com Recompensa 1</span>
+          </div>
+          <div class="tier-value">R$ 500 - R$ 999</div>
+          <div class="tier-description">
+            <strong>Contrapartida:</strong> Recebe uma miniatura da estátua/homenagem à senhora.
+          </div>
+        </div>
+      
+        <div class="tier" data-tier="reward2" onclick="selectTier('reward2')">
+          <div class="tier-header">
+            <span class="tier-icon">⭐</span>
+            <span class="tier-title">Doação com Recompensa 2</span>
+          </div>
+          <div class="tier-value">R$ 1.000 ou mais</div>
+          <div class="tier-description">
+            <strong>Contrapartida:</strong> Nome estampado na placa junto com a homenagem à senhora.
+          </div>
+        </div>
+      </div>
+      
+      <!-- QR Code PIX para doação -->
+      <div
+        style="margin-top: 24px; padding: 20px; background: rgba(255,255,255,0.08); border-radius: 12px; border: 2px solid rgba(255,255,255,0.15); text-align: center;">
+        <h4 style="margin: 0 0 16px; color: var(--brand); font-size: 18px;">
+          💳 Faça sua doação via PIX
+        </h4>
+        <p style="margin: 0 0 16px; color: var(--muted); font-size: 14px;">
+          Escaneie o QR Code abaixo com o app do seu banco ou copie a chave PIX
+        </p>
+        <div style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin-bottom: 16px;">
+          <img src="assets/qr-code-pix.png" alt="QR Code PIX para doação" width="200" height="200" style="display: block;">
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn small" onclick="copyPixKey()" style="background: var(--brand); color: black;">
+            📋 Copiar chave PIX
+          </button>
+          <button class="btn small ghost" onclick="openPixInstructions()">
+            ℹ️ Como doar
+          </button>
+        </div>
+      </div>
+      
+      <div
+        style="margin-top: 20px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+        <p style="margin: 0 0 12px; font-weight: 600;">📝 Após realizar sua doação:</p>
+        <ul class="clean" style="font-size: 14px;">
+          <li>✅ Preencha o <strong>formulário de confirmação</strong> com seus dados</li>
+          <li>✅ Informe seu <strong>nome</strong> para ser incluído na lista de apoiadores</li>
+          <li>✅ Ou opte por fazer uma <strong>doação anônima</strong>, se preferir</li>
+        </ul>
+      </div>
+      
+      <p class="small-note" style="margin-top: 12px;">Sua contribuição será fundamental para honrar a memória de Antônia Ione.
+      </p>
       <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-        <button class="btn" onclick="confirmarDoacao()">Ir para o formulário</button>
-        <button class="btn ghost" onclick="closeAvisoDoacao()">Cancelar</button>
+        <button class="btn" onclick="confirmarDoacao()">Preencher formulário de confirmação</button>
+        <button class="btn ghost" onclick="closeAvisoDoacao()">Fechar</button>
       </div>
     </div>
   </dialog>
