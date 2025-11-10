@@ -146,6 +146,13 @@ function openDonate() {
     // Reset selection
     selectedTierType = null;
     document.querySelectorAll('.tier').forEach(tier => tier.classList.remove('selected'));
+    
+    // Atualiza a chave PIX exibida no modal
+    const pixKeyDisplay = document.getElementById('pixKeyDisplay');
+    if (pixKeyDisplay && CONFIG.pixKey) {
+      pixKeyDisplay.textContent = CONFIG.pixKey;
+    }
+    
     dlgAviso.showModal();
   }
 }

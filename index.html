@@ -366,9 +366,20 @@
           <button class="btn small" onclick="copyPixKey()" style="background: var(--brand); color: black;">
             📋 Copiar chave PIX
           </button>
-          <button class="btn small ghost" onclick="openPixInstructions()">
+          <button class="btn small ghost" style="color: white;" onclick="openPixInstructions()">
             ℹ️ Como doar
           </button>
+        </div>
+        <!-- Chave PIX visível -->
+        <div
+          style="margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+          <p style="margin: 0 0 8px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">
+            Chave PIX (Copia e Cola):
+          </p>
+          <p id="pixKeyDisplay"
+            style="margin: 0; font-family: 'Courier New', monospace; font-size: 14px; color: var(--brand); font-weight: 600; word-break: break-all; line-height: 1.5;">
+            apoio.mblceara@gmail.com
+          </p>
         </div>
       </div>
       
