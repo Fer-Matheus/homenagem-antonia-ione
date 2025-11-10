@@ -8,7 +8,7 @@ const CONFIG = {
   donationFormURL: "https://forms.gle/Ss5U3cJvcvR6Qj1dA", // Cole aqui a URL do Google Forms para doação
 
   // Chave PIX para doações
-  pixKey: "00020126360014BR.GOV.BCB.PIX0114+55859996900795204000053039865802BR5925MATHEUS DE ARRUDA FERREI6009SAO PAULO62070503***63041D3A", // Substitua pela chave PIX real extraída do QR Code
+  pixKey: "apoio.mblceara@gmail.com", // Substitua pela chave PIX real extraída do QR Code
 
   // ID da planilha do Google Sheets (extraído da URL da planilha)
   // Exemplo de URL: https://docs.google.com/spreadsheets/d/1ABC123/edit
